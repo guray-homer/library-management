@@ -4,192 +4,201 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Library Management System</title>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="header">
-    <div class="logo">
-      📚 Library Admin Panel
+    <div class="logo-area">
+      <div class="logo">
+        <i class="fa-solid fa-book-bookmark"></i>
+        <span>Libraryly</span>
+      </div>
+      <nav class="nav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Books</a>
+        <a href="#">Manage</a>
+        <a href="#">Settings</a>
+      </nav>
     </div>
 
-    <nav class="nav">
-      <a href="#">Dashboard</a>
-      <a href="#">Books</a>
-      <a href="#">Manage</a>
-      <a href="#">Settings</a>
-    </nav>
+    <div class="profile-card">
+      <div class="profile-avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <div class="profile-info">
+        <span class="profile-name">Juan Phies</span>
+        <span class="profile-email">laufey@admin.edu.ph</span>
+      </div>
+    </div>
   </header>
 
-  <!-- MAIN -->
   <main class="container">
-
     <section class="top-section">
       <div>
-        <h1>Library Management System</h1>
-        <p>
-          Manage books, authors, ISBN records, publication dates,
-          and monitor your library collection.
-        </p>
+        <h1>Library Management</h1>
+        <p>Monitor your library collection, catalog records, and availability metrics.</p>
       </div>
-
       <button id="openModalBtn" class="add-btn">
-        + Add New Book
+        <i class="fa-solid fa-plus"></i> Add New Book
       </button>
     </section>
 
-    <!-- STATS -->
     <section class="stats">
       <div class="card">
-        <h3 id="totalBooks">0</h3>
-        <p>Total Books</p>
+        <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <div>
+          <h3 id="totalBooks">0</h3>
+          <p>Total Books</p>
+        </div>
       </div>
-
       <div class="card">
-        <h3 id="availableBooks">0</h3>
-        <p>Available</p>
+        <div class="card-icon status-available-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div>
+          <h3 id="availableBooks">0</h3>
+          <p>Available</p>
+        </div>
       </div>
-
       <div class="card">
-        <h3 id="borrowedBooks">0</h3>
-        <p>Borrowed</p>
+        <div class="card-icon status-borrowed-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+        <div>
+          <h3 id="borrowedBooks">0</h3>
+          <p>Borrowed</p>
+        </div>
       </div>
     </section>
 
-    <!-- SEARCH -->
     <section class="search-section">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Search by title, author, category, or ISBN..."
-      />
-    </section>
-
-    <!-- TABLE -->
-    <section class="table-section">
-
-      <table>
-        <thead>
-          <tr>
-            <th>Cover</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Category</th>
-            <th>Published</th>
-            <th>ISBN</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody id="bookTableBody"></tbody>
-      </table>
-
-      <div id="emptyState" class="empty-state">
-        No books added yet.
+      <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search by title, author, category, or ISBN..." />
       </div>
-
     </section>
 
+    <section class="table-section" id="tableSection">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Cover</th>
+              <th>Book Details</th>
+              <th>Author</th>
+              <th>Category</th>
+              <th>Published</th>
+              <th>ISBN</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="bookTableBody"></tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="empty-state">
+        <i class="fa-solid fa-folder-open"></i>
+        <p>No books found matching your collection framework.</p>
+      </div>
+    </section>
   </main>
 
-  <!-- MODAL -->
-  <div class="modal" id="bookModal">
-
+  <div id="bookModal" class="modal">
     <div class="modal-content">
-
       <div class="modal-header">
-        <h2 id="modalTitle">Add Book</h2>
-
-        <button class="close-btn" id="closeModalBtn">
-          ✕
-        </button>
+        <h2 id="modalTitle">Add New Book</h2>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
       </div>
-
-      <form id="bookForm">
-
-        <div class="form-grid">
-
+      <form id="bookForm" class="modal-body">
+        <div class="form-row">
           <div class="form-group">
-            <label>Book Title</label>
-            <input type="text" id="title" required />
+            <label for="title">Book Title</label>
+            <input type="text" id="title" required placeholder="e.g., Atomic Habits" />
           </div>
-
           <div class="form-group">
-            <label>Author Name</label>
-            <input type="text" id="author" required />
+            <label for="author">Author</label>
+            <input type="text" id="author" required placeholder="e.g., James Clear" />
           </div>
+        </div>
 
+        <div class="form-row">
           <div class="form-group">
-            <label>Category</label>
-            <input type="text" id="category" required />
+            <label for="category">Category</label>
+            <input type="text" id="category" required placeholder="e.g., Self Help" />
           </div>
-
-          <div class="form-group">
-            <label>Published Date</label>
+          <div class="form-group date-wrapper">
+            <label for="publishedDate">Publication Date</label>
             <input type="date" id="publishedDate" required />
           </div>
+        </div>
 
+        <div class="form-row">
           <div class="form-group">
-            <label>ISBN</label>
-            <input type="text" id="isbn" required />
+            <label for="isbn">ISBN Record</label>
+            <div class="isbn-wrapper">
+              <input type="text" id="isbn" readonly placeholder="Click to generate dynamic field..." />
+              <div class="isbn-loader" id="isbnLoader"></div>
+            </div>
           </div>
-
-          <div class="form-group">
-            <label>Language</label>
-            <input type="text" id="language" required />
-          </div>
-
-          <div class="form-group">
-            <label>Pages</label>
-            <input type="number" id="pages" required />
-          </div>
-
-          <div class="form-group">
-            <label>Status</label>
-
+          <div class="form-group select-wrapper">
+            <label for="status">Availability Status</label>
             <select id="status">
               <option value="Available">Available</option>
               <option value="Borrowed">Borrowed</option>
             </select>
           </div>
-
-          <div class="form-group full-width">
-            <label>Book Cover URL</label>
-            <input
-              type="text"
-              id="cover"
-              placeholder="https://example.com/book-cover.jpg"
-            />
-          </div>
-
-          <div class="form-group full-width">
-            <label>Description</label>
-            <textarea id="description"></textarea>
-          </div>
-
         </div>
 
-        <button type="submit" class="submit-btn">
-          Save Book
-        </button>
+        <div class="form-row">
+          <div class="form-group select-wrapper">
+            <label for="language">Language</label>
+            <select id="language" required>
+              <option value="" disabled selected hidden>Select language...</option>
+              <option value="English">English</option>
+              <option value="Spanish">Spanish (Español)</option>
+              <option value="French">French (Français)</option>
+              <option value="German">German (Deutsch)</option>
+              <option value="Chinese">Chinese (中文)</option>
+              <option value="Japanese">Japanese (日本語)</option>
+              <option value="Arabic">Arabic (العربية)</option>
+              <option value="Portuguese">Portuguese (Português)</option>
+              <option value="Russian">Russian (Русский)</option>
+              <option value="Hindi">Hindi (हिन्दी)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pages">Page Count</label>
+            <input type="number" id="pages" required placeholder="e.g., 320" />
+          </div>
+        </div>
 
+        <div class="form-group">
+          <label for="coverFile">Book Cover Image</label>
+          <div class="file-drop-zone">
+            <input type="file" id="coverFile" accept="image/*" title="Upload book cover image" aria-label="Upload book cover image" />
+            <div class="drop-zone-prompt">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span>Click to upload local cover asset</span>
+            </div>
+            <img id="coverPreview" class="cover-preview-img" alt="Preview" />
+          </div>
+          <input type="hidden" id="cover" />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Short Synopsis</label>
+          <textarea id="description" rows="3" placeholder="Enter an informative, brief description..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="submit-btn">Save Changes</button>
+        </div>
       </form>
-
     </div>
-
   </div>
 
-  <!-- FOOTER -->
   <footer class="footer">
-    <p>
-      © 2026 Library Management System • Admin Dashboard
-    </p>
+    <p>&copy; 2026 Library Management System</p>
   </footer>
 
   <script src="script.js"></script>
-
 </body>
 </html>
